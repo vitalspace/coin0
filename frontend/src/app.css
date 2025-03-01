@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+body {
+  background-color: #09090b; /* Equivalente a bg-zinc-950 */
+  color: #f3f4f6; /* Equivalente a text-gray-100 */
+  /* padding-left: 1rem; Equivalente a px-4 */
+  /* padding-right: 1rem; */
+  overflow-x: hidden;
+}
+
+canvas {
+  height: 100%;
+}
