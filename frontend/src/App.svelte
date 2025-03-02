@@ -9,6 +9,7 @@
   import { isConnected } from "./lib/stores/stores";
   import web3App from "./lib/web3/App";
   import Coins from "./routes/Coins.svelte";
+  import Whitepaper from "./routes/Whitepaper.svelte";
 
   let url = $state("");
 
@@ -29,5 +30,6 @@
     <Route path="/" component={Home} />
     <Route path="/coins" component={Coins} />
     <Route path="/create-coin" component={CreateCoin} />
+    <Route path="/whitepaper" component={Whitepaper} />
   </div>
 </Router>

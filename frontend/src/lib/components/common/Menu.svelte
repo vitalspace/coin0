@@ -1,7 +1,7 @@
 <script lang="ts">
   import { isConnected } from "../../stores/stores";
   import web3App from "../../web3/App";
-  
+
   let isLoading = $state(true);
 
   // Verificar el estado de conexión inicial
@@ -15,7 +15,7 @@
       isLoading = false;
     }
   };
-  
+
   const connectWallet = async () => {
     isLoading = true; // Mostrar carga mientras conecta
     try {
@@ -28,7 +28,7 @@
       isLoading = false;
     }
   };
-  
+
   // Ejecutar al cargar el componente
   $effect(() => {
     checkInitialConnection();
@@ -43,16 +43,17 @@
       <h1 class="text-4xl font-mono text-cyan-500">Coin0</h1>
     </a>
   </div>
-  
+
   <div class="space-x-2 text-white">
     <a href="/coins">Coins</a>
     <a href="/create-coin">Create Coin</a>
-    <a href="/">About Us</a>
-    
+    <a href="/whitepaper">White paper</a>
+
     {#if isLoading}
       <!-- <span>Loading...</span> -->
     {:else if $isConnected}
-      <a class="text-white" href="/my-coins">My Coins</a>
+      <!-- <a class="text-white" href="/my-coins">My Coins</a> -->
+      <!-- <span>Connected</span> -->
     {:else}
       <button
         onclick={connectWallet}

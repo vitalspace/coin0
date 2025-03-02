@@ -15,7 +15,6 @@
     damping: 0.4,
   });
 
-
   const lerp = (x: number, y: number, a: number) => (1 - a) * x + a * y;
   const scaleObject = (start: number, end: number) =>
     Math.max(0, ($scrollPercentage - start) / (end - start));
@@ -35,8 +34,6 @@
         const progress = scaleObject(0, 25);
         html1.y = lerp(15, 0, progress);
 
-        // console.log(progress);
-
         if (progress > 0.65) {
           // opacity.target = 1; // Controla la opacidad
           opacity.set(1);
@@ -52,22 +49,16 @@
     {
       range: [0, 10],
       update: () => {
-        console.log("me cumplo")
         // camera.current.position.x = lerp(0, 20, scaleObject(0, 15));
         coinsOpacity.set(1);
-       
-        // console.log("coinsOpacity", coinsOpacity.current);
       },
     },
 
     {
       range: [10, 20],
       update: () => {
-        console.log("me cumplo")
         // camera.current.position.x = lerp(0, 20, scaleObject(0, 15));
         coinsOpacity.set(0);
-       
-        // console.log("coinsOpacity", coinsOpacity.current);
       },
     },
 
@@ -82,9 +73,6 @@
   setUpCamera();
 
   useTask((delta) => {
-
-    // console.log(html1.y);
-
     animations.forEach(({ range, update }) => {
       if ($scrollPercentage >= range[0] && $scrollPercentage <= range[1]) {
         update();
@@ -96,57 +84,12 @@
 <T.DirectionalLight position={[0, 10, 10]} castShadow color="white" />
 
 <Lights />
-<Coins fallback={null} error={null} children={null} opacity={coinsOpacity.current} />
-
-<!-- <T.Mesh
-  rotation.y={rotation}
-  position={[4, 0, -4]}
-  scale={scale.current}
-  onpointerenter={() => {
-    scale.target = 1.5;
-  }}
-  onpointerleave={() => {
-    scale.target = 1;
-  }}
-  castShadow
->
-  <T.BoxGeometry args={[1, 2, 1]} />
-  <T.MeshStandardMaterial color="hotpink" />
-</T.Mesh> -->
-
-<!-- <HTML transform position={[html1.x, html1.y, -10]}>
-  <div
-    class="border border-white w-lg select-none space-y-2"
-    style="opacity: {opacity.current}; transition: opacity 0.3s"
-  >
-    <h2 class=" font-bold text-[1.9rem]">
-      Create your token in 3 simple steps
-    </h2>
-
-    <div class="flex gap-8 border border-red-400 w-full">
-      <div class="w-full">
-        <h3 class="">Choose your token</h3>
-        <p class="text-[0.8rem]">
-          Select your preferred blockchain and configure basic token parameters
-        </p>
-      </div>
-
-      <div class="w-full">
-        <h3>Customize</h3>
-        <p class="text-[0.8rem]">
-          Set your token's name, symbol, and initial supply - no coding required
-        </p>
-      </div>
-
-      <div class="w-full">
-        <h3>Launch</h3>
-        <p class="text-[0.8rem]">
-          Deploy your token with one click and start building your community
-        </p>
-      </div>
-    </div>
-  </div>
-</HTML> -->
+<Coins
+  fallback={null}
+  error={null}
+  children={null}
+  opacity={coinsOpacity.current}
+/>
 
 <Stars
   speed={2}

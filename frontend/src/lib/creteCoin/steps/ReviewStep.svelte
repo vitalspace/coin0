@@ -1,15 +1,4 @@
 <script lang="ts">
-  import { Coins, Globe, Image, FileText } from "lucide-svelte";
-  // import type { FormData, Network } from "../types/types";
-
-  // export let formData: FormData;
-  // export let networks: Network[];
-  // export let aiLogo: string | null;
-  // export let whitepaperGenerated: boolean;
-  // export let onGenerateWhitepaper: () => void;
-  // export let onCreate: () => Promise<void>;
-
-  // $: currentNetwork = networks.find(n => n.id === formData.network);
 
   let {
     formData = $bindable({}),
@@ -20,9 +9,6 @@
     onCreate = () => Promise.resolve(),
   } = $props();
 
-  // let currentNetwork = $derived(() =>
-  //   networks.find((n) => n.id === formData.network)
-  // );
 </script>
 
 <div class="space-y-4">
@@ -50,12 +36,12 @@
       />
     </div>
   {/if}
-  <button
+  <!-- <button
     onclick={() => onGenerateWhitepaper()}
     class="w-full bg-cyan-700 hover:bg-cyan-600 text-white py-2 px-4 rounded"
   >
     Generate Whitepaper
-  </button>
+  </button> -->
   {#if whitepaperGenerated}
     <div class="mt-4 p-4 bg-neutral-900 rounded-lg space-y-2">
       <h3 class="text-cyan-400 font-bold">1. Introduction</h3>

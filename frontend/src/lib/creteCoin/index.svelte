@@ -35,14 +35,14 @@
       contractAddress: "0x15ff23Ab56f157bC9Dd460D6E6d686A0A0664E08",
     },
     // { id: 1313161554, name: "Aurora Mainnet", contractAddress: "" },
-    { id: 52014, name: "Electroneum Mainnet", contractAddress: "" },
+    // { id: 52014, name: "Electroneum Mainnet", contractAddress: "" },
     // { id: 1313161555, name: "Aurora Testnet", contractAddress: "" },
     {
       id: 5201420,
       name: "Electroneum Testnet",
       contractAddress: "0xA8317d7A1eD51c4C4e52bD0DF39ba0fD84BE1275",
     },
-    { id: 1337, name: "Ganache Testnet", contractAddress: "" },
+    // { id: 1337, name: "Ganache Testnet", contractAddress: "" },
   ];
 
   let step = $state(1);
@@ -449,12 +449,12 @@
           <CircleAlert class="w-5 h-5 " />
           <div>
             <p>{errors.errorMessage}</p>
-            <p>
+            <!-- <p>
               Add this network to Metamask <a
                 class="underline"
                 href="/add-network">here</a
               >
-            </p>
+            </p> -->
           </div>
         </div>
       </Toast>

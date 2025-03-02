@@ -91,7 +91,9 @@
   };
 </script>
 
-<div class="min-h-screen bg-black text-white pt-20">
+<div
+  class="min-h-screen bg-black bg-[radial-gradient(ellipse_at_center,rgba(0,255,255,0.07),transparent)]  justify-center pt-20"
+>
   <main class="container mx-auto py-8 px-20">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold">Coins List</h2>

@@ -3,8 +3,6 @@
   import Canvas from "../lib/components/home/Canvas.svelte";
   import { scrollPercentage } from "../lib/stores/stores";
 
-  
-
   $effect(() => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight } = document.documentElement;
@@ -12,7 +10,7 @@
       const percentage = (scrollTop / (scrollHeight - height)) * 100;
       scrollPercentage.set(percentage);
     };
-            
+
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
@@ -32,7 +30,7 @@
     <!-- <h2>Begin scrolling to see things change</h2> -->
   </section>
 
-  <section class="min-h-screen p-5 text-white">
+  <!-- <section class="min-h-screen p-5 text-white">
     <div
       class="container mx-auto min-h-screen grid place-content-center justify-end px-20"
     >
@@ -84,5 +82,6 @@
     <p>The cube will now be auto rotating</p>
     <p>Now you can scroll back to the top to reverse the animation</p>
   </section>
+  -->
   <Canvas />
 </main>
