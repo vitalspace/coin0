@@ -1,5 +1,5 @@
 <script>
-  import CreateCoin from "../lib/components/creteCoin/index.svelte";
+  import CreateCoin from "../lib/creteCoin/index.svelte";
 </script>
 
 <CreateCoin />

@@ -8,6 +8,7 @@
   import CreateCoin from "./routes/CreateCoin.svelte";
   import { isConnected } from "./lib/stores/stores";
   import web3App from "./lib/web3/App";
+  import Coins from "./routes/Coins.svelte";
 
   let url = $state("");
 
@@ -26,6 +27,7 @@
 
   <div class="">
     <Route path="/" component={Home} />
+    <Route path="/coins" component={Coins} />
     <Route path="/create-coin" component={CreateCoin} />
   </div>
 </Router>

@@ -45,6 +45,7 @@
   </div>
   
   <div class="space-x-2 text-white">
+    <a href="/coins">Coins</a>
     <a href="/create-coin">Create Coin</a>
     <a href="/">About Us</a>
     

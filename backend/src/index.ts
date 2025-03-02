@@ -21,61 +21,54 @@ const createRateLimiter = (windowMs = 60000, maxRequests = 10) => {
   const requests = new Map();
 
   const rateLimiter = {
-    check: (ip) => {
+    check: (ip: string) => {
       const now = Date.now();
       const windowStart = now - windowMs;
-      
-      // Get the requests for this IP
+
       const ipRequests = requests.get(ip) || [];
-      
-      // Filter out requests outside the current window
-      const recentRequests = ipRequests.filter(time => time > windowStart);
-      
-      // Update the requests
+      const recentRequests: number[] = ipRequests.filter(
+        (time: number) => time > windowStart
+      );
+
       requests.set(ip, [...recentRequests, now]);
-      
-      // Check if the IP has exceeded the rate limit
       return recentRequests.length >= maxRequests;
     },
-    // Clean up old data
+
     cleanup: () => {
       const now = Date.now();
       const windowStart = now - windowMs;
-      
+
       for (const [ip, times] of requests.entries()) {
-        const recentRequests = times.filter(time => time > windowStart);
+        const recentRequests: number[] = times.filter(
+          (time: number) => time > windowStart
+        );
         if (recentRequests.length === 0) {
           requests.delete(ip);
         } else {
           requests.set(ip, recentRequests);
         }
       }
-    }
+    },
   };
 
-  // Clean up old data periodically
   setInterval(rateLimiter.cleanup, windowMs);
-
   return rateLimiter;
 };
 
-// Rate limiter middleware
 const rateLimiterMiddleware = (windowMs = 60000, maxRequests = 10) => {
   const rateLimiter = createRateLimiter(windowMs, maxRequests);
-  
+
   return new Elysia()
-    .decorate('rateLimiter', rateLimiter)
+    .decorate("rateLimiter", rateLimiter)
     .onRequest(({ rateLimiter, request, set }) => {
-      // Extract the IP address
-      const ip = request.headers.get('x-forwarded-for') || 'unknown';
-      
-      // Check if the IP has exceeded the rate limit
+      const ip = request.headers.get("x-forwarded-for") || "unknown";
+
       if (rateLimiter.check(ip)) {
         set.status = 429;
         return {
           success: false,
-          message: 'Too Many Requests',
-          retryAfter: Math.ceil(windowMs / 1000)
+          message: "Too Many Requests",
+          retryAfter: Math.ceil(windowMs / 1000),
         };
       }
     });
@@ -156,6 +149,7 @@ const app = new Elysia()
     async ({ body }) => {
       try {
         const {
+          hash,
           name,
           symbol,
           owner,
@@ -166,9 +160,8 @@ const app = new Elysia()
           image,
         } = body;
 
-        console.log(body);
-
         const coin = new Coin({
+          hash,
           name,
           symbol,
           owner,
@@ -190,14 +183,51 @@ const app = new Elysia()
     },
     {
       body: t.Object({
+        hash: t.String(),
         name: t.String(),
         symbol: t.String(),
         owner: t.String(),
         supply: t.String(),
         contractAddress: t.String(),
-        chainId: t.String(),
+        chainId: t.Numeric(),
         chainName: t.String(),
         image: t.String(),
+      }),
+    }
+  )
+  .get(
+    "/api/coin-agent/coins",
+    async ({ query }) => {
+      try {
+        const page = parseInt(query.page as unknown as string) || 1;
+        const limit = parseInt(query.limit as unknown as string) || 10;
+        const skip = (page - 1) * limit;
+
+        const coins = await Coin.find().skip(skip).limit(limit).lean().exec();
+
+        const totalCoins = await Coin.countDocuments();
+        const totalPages = Math.ceil(totalCoins / limit);
+
+        return {
+          message: "Success",
+          data: {
+            coins,
+            pagination: {
+              currentPage: page,
+              totalPages,
+              totalCoins,
+              limit,
+            },
+          },
+        };
+      } catch (err) {
+        return error(500, { message: `Internal Server Error: ${err}` });
+      }
+    },
+    {
+      query: t.Object({
+        page: t.Optional(t.Numeric({ default: 1 })),
+        limit: t.Optional(t.Numeric({ default: 10 })),
       }),
     }
   )

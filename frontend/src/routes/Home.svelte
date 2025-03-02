@@ -12,7 +12,7 @@
       const percentage = (scrollTop / (scrollHeight - height)) * 100;
       scrollPercentage.set(percentage);
     };
-
+            
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
