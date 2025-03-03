@@ -94,7 +94,7 @@ export const CONTRACT_ADDRESS = {
 
 cd ../backend
 cp .env.example .env
-
+```code
 # CORS
 ALLOWED_ORIGIN_1="http://localhost:5173" // cha
 ALLOWED_ORIGIN_2="https://your-production-domain.com"
@@ -111,7 +111,7 @@ CLOUD_FLARE_IA_MODEL_ID="@cf/black-forest-labs/flux-1-schnell"
 # Google AI
 GOOGLE_API_KEY="your_google_key"
 GOOGLE_IA_MODEL_ID="gemini-2.0-flash"
-
+```
 ## Running the Project
 
 ## Frontend Development
