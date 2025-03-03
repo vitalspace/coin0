@@ -65,10 +65,10 @@ Explorer https://0x4e4541ca.explorer.aurora-cloud.dev
 ## Installation
 
 1. **Clone Repository**
-
+```
 git clone https://github.com/vitalspace/coin0.git
 cd coin0
-
+```
 
 ## Project Structure
 ```
@@ -78,8 +78,9 @@ coin0/
 ├── backend/
 ```
 ## Frontend Setup
-
+```
 cd frontend
+```
 
 Update contract address (if deployed):
 ```
@@ -140,4 +141,4 @@ Update contract address in frontend/src/lib/constants.ts
 
 Demo: https://www.youtube.com/watch?v=t8Ccd3O9Lsk
 
-```bash
+```
