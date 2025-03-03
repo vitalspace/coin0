@@ -71,17 +71,18 @@ cd coin0
 
 
 ## Project Structure
-
+```
 coin0/
 ├── contracts/
 ├── frontend/
 ├── backend/
-
+```
 ## Frontend Setup
 
 cd frontend
 
 Update contract address (if deployed):
+```
 frontend/src/lib/constants.ts
 
 export const CONTRACT_ADDRESS = {
@@ -89,11 +90,14 @@ export const CONTRACT_ADDRESS = {
   5201420: "0xA8317d7A1eD51c4C4e52bD0DF39ba0fD84BE1275", // Electroneum Testnet
   1337: "0x0792B7cB21aA6C3d12E7441244716b256AA9F4b1", // Ganache Testnet
 };
+```
 
 ## Backend Setup
-
+```
 cd ../backend
 cp .env.example .env
+```
+
 ```code
 # CORS
 ALLOWED_ORIGIN_1="http://localhost:5173" // cha
@@ -115,19 +119,19 @@ GOOGLE_IA_MODEL_ID="gemini-2.0-flash"
 ## Running the Project
 
 ## Frontend Development
-
+```
 cd frontend
 bun install
 bun run dev
-
+```
 Access http://localhost:5173
 
 Backend Server
-
+```
 cd backend
 bun install
 bun run dev
-
+```
 Access http://localhost:3000
 
 Smart Contracts
