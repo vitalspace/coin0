@@ -9,7 +9,9 @@
     CircleCheck,
     Copy,
     ExternalLink,
-    Wallet
+    Wallet,
+    Trophy,
+    Sparkles,
   } from "lucide-svelte";
   import { createCoin } from "../services/crateCoin.service";
   import web3App from "../web3/App";
@@ -27,6 +29,10 @@
   import ReviewStep from "./steps/ReviewStep.svelte";
   import SymbolSupplyStep from "./steps/SymbolSupplyStep.svelte";
   import { type AISuggestions, type CoinResult } from "./types/types";
+
+  import Game from "./Game/Game.svelte";
+  import { isPlaying, isPlayerWin } from "../stores/stores";
+  import DialogAssistant from "./dialogs/AiAssistantDIalog.svelte";
 
   const networks = [
     {
@@ -255,6 +261,10 @@
       aiLogo
     );
   };
+
+  const handlePlay = async () => {
+    isPlaying.set(true);
+  };
 </script>
 
 <div
@@ -263,7 +273,26 @@
   <div
     class="w-full max-w-md border border-neutral-800 bg-black/40 backdrop-blur-sm rounded-lg overflow-hidden"
   >
-    {#if !sucesssTransaction}
+    {#if !sucesssTransaction && !$isPlaying}
+      {#if step === 5}
+        <div
+          class="bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-400 p-4 rounded-t-lg"
+        >
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <Trophy class="h-8 w-8 mr-2 text-yellow-300" />
+              <div>
+                <h3 class="font-bold text-white">Play & Win!</h3>
+                <p class="text-sm text-white/90">
+                  We'll pay your token creation costs
+                </p>
+              </div>
+            </div>
+            <Sparkles class="h-6 w-6 text-yellow-300 animate-pulse" />
+          </div>
+        </div>
+      {/if}
+
       <div class="p-6">
         <h2 class="text-2xl font-bold text-white mb-2">Create Your Memecoin</h2>
         <p class="text-neutral-400 mb-6">
@@ -315,21 +344,60 @@
         <div class="flex justify-between mt-6">
           <button
             onclick={() => step--}
-            disabled={step === 1}
+            disabled={step === 1 || ($isPlayerWin === false && !$isPlaying)}
             class="bg-transparent border flex place-items-center border-neutral-700 text-neutral-300 hover:bg-neutral-800 py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors"
           >
             <ArrowLeft class="w-4 h-4 mr-2" />
-
             Previous
           </button>
-          <button
-            onclick={step === 5 ? handleCreateCoin : nextStep}
-            class="bg-[#00ffff] hover:bg-[#00ffff]/90 text-black font-medium py-2 px-4 rounded cursor-pointer transition-colors"
-          >
-            {step === 5 ? "Create Memecoin" : "Next"}
-          </button>
+
+          <div class="flex gap-2">
+            <!-- Play & Win button - only shown before playing -->
+            <button
+              onclick={step === 5 ? handlePlay : null}
+              class="bg-[#00ffff] hover:bg-[#00ffff]/90 text-black hover:bg-gradient-to-r hover:text-white hover:from-purple-600/90 hover:via-blue-500/90 hover:to-cyan-400/90 font-medium py-2 px-4 rounded cursor-pointer transition-colors {step ===
+                5 &&
+              $isPlayerWin === null &&
+              !$isPlaying
+                ? 'inline-block'
+                : 'hidden'}"
+            >
+              {step === 5 ? "Play & Win" : ""}
+            </button>
+
+            <!-- Pay fee button - shown when game not yet played OR when lost/tied -->
+            <button
+              onclick={step === 5 ? handleCreateCoin : nextStep}
+              class="bg-[#00ffff] hover:bg-[#00ffff]/90 text-black font-medium py-2 px-4 rounded cursor-pointer transition-colors {($isPlayerWin ===
+                null &&
+                !$isPlaying) ||
+              ($isPlayerWin === false && !$isPlaying)
+                ? 'inline-block'
+                : 'hidden'}"
+            >
+              {step === 5 ? "Pay fee" : "Next"}
+            </button>
+
+            <!-- Create Free Coin button - only shown when won -->
+            <button
+              onclick={step === 5 ? handleCreateCoin : nextStep}
+              class="bg-[#00ffff] hover:bg-[#00ffff]/90 text-black font-medium py-2 px-4 rounded cursor-pointer transition-colors {$isPlayerWin ===
+                true && !$isPlaying
+                ? 'inline-block'
+                : 'hidden'}"
+            >
+              {step === 5 && $isPlayerWin ? "Create Free Coin" : "Pay fee"}
+            </button>
+          </div>
         </div>
       </div>
+    {:else if $isPlaying && !sucesssTransaction}
+      <Game
+        bind:name={formData.name}
+        bind:symbol={formData.symbol}
+        bind:supply={formData.supply}
+        bind:logo={aiLogo}
+      />
     {:else}
       <div class="text-center pb-2 p-6">
         <div
@@ -490,3 +558,5 @@
     </div>
   {/if}
 </div>
+
+<DialogAssistant />

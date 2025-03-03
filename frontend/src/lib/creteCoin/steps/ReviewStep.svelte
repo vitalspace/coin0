@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { ArrowLeft, Trophy, Hand, Scissors, FileText } from 'lucide-svelte';
+
 
   let {
     formData = $bindable({}),
@@ -12,6 +14,8 @@
 </script>
 
 <div class="space-y-4">
+
+
   <h3 class="text-lg font-semibold text-white">Review Your Memecoin</h3>
   <div class="space-y-2 text-neutral-300">
     <p>

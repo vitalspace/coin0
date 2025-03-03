@@ -232,6 +232,162 @@ const app = new Elysia()
     }
   )
 
+  .post(
+    "/api/coin-agent/play",
+    async ({ body }) => {
+      try {
+        const { userMove } = body;
+
+        const validMoves = ["rock", "paper", "scissors"];
+
+        if (!validMoves.includes(userMove)) {
+          return error(400, { message: "Invalid move user" });
+        }
+
+        const prompt = `Eres un agente de IA. Responde SOLO con una de estas opciones al azar: "rock", "paper" o "scissors". No des explicaciones ni contexto adicional.`;
+        const result = await model.generateContent(prompt);
+
+        const aiMove = result.response.text().toLowerCase().trim();
+
+        if (!validMoves.includes(aiMove)) {
+          return error(400, { message: "Invalid move ia" });
+        }
+
+        let resultMessage;
+        let isWin = false;
+
+        if (userMove === aiMove) {
+          isWin = false;
+          resultMessage = "Draw game!";
+        } else if (
+          (userMove === "rock" && aiMove === "scissors") ||
+          (userMove === "paper" && aiMove === "rock") ||
+          (userMove === "scissors" && aiMove === "paper")
+        ) {
+          isWin = true;
+          resultMessage = `You win! Now you can create your coin totally free.`;
+        } else {
+          isWin = false;
+          resultMessage = `You lost!`;
+        }
+        return {
+          message: "Success",
+          data: {
+            aiMove: aiMove,
+            isPlayerWin: isWin,
+            result: resultMessage,
+          },
+        };
+      } catch (err) {
+        return error(500, { message: `Internal Server Error: ${err}` });
+      }
+    },
+    {
+      body: t.Object({
+        userMove: t.String(),
+      }),
+    }
+  )
+
+  .post(
+    "/api/coin-agent/lose-coin",
+    async ({ body }) => {
+      try {
+        const { userName } = body;
+
+        // Temática basada en la derrota del usuario
+        const randomTheme = `${userName}'s Epic Fail`;
+
+        // Generar nombres burlones
+        const namePrompt = `Generate 3 creative memecoin names. Rules:
+          1. Based on ${randomTheme}
+          2. Maximum 3 words
+          3. Unusual term combinations
+          4. Avoid "Doge", "Shiba" or "Elon"
+          5. Format: Name1|Name2|Name3
+          6. Must mock ${userName} for losing a game
+          
+          Valid examples:
+          QuantumFail|LoserLlamas|TofuTears`;
+        const nameResult = await model.generateContent(namePrompt);
+        const names = nameResult.response.text().trim().split("|");
+        const name = names[0]; // Seleccionamos el primer nombre generado
+
+        // Generar símbolos burlones
+        const symbolPrompt = `Create 3 unique symbols (3-5 uppercase letters) for a memecoin mocking ${userName} for losing a game. 
+          Rules:
+          1. Creative derivatives of the coin name
+          2. Use initials, phonetic parts, or clever combinations
+          3. Avoid exact name repetitions
+          4. Format: SYMBOL1|SYMBOL2|SYMBOL3
+          5. Must mock ${userName} for losing a game
+
+          No des explicaciones ni contexto adicional solo dame el simbolo.
+          
+          Examples:
+          For "QuantumFail": QTF|FAIL|QFL
+          For "LoserLlamas": LLL|LMAO|LOSE`;
+        const symbolResult = await model.generateContent(symbolPrompt);
+        const symbols = symbolResult.response.text().trim().split("|");
+        const symbol = symbols[0]; // Seleccionamos el primer símbolo generado
+
+        // Generar supply burlón
+        const supplyPrompt = `
+        give me a number between 1 and 9 at random,
+        you should only return number NOT TEXT, No des explicaciones ni contexto adicional. solo dame el numero ramdom entre 1 y 9, 
+
+        example: 1|4|9
+        `;
+        const supplyResult = await model.generateContent(supplyPrompt);
+        const supplies = supplyResult.response.text().trim().split("|");
+        const supply = supplies[0]; // Seleccionamos el primer supply generado
+
+        // Generar descripción del logo burlón
+        const logoPrompt = ` Generate a logo for a memecoin called ${symbolResult} for losing a game. 
+          Rules:
+          1. Use humor and sarcasm
+          2. Be creative and visually descriptive
+          3. Include the text "${symbol}" in a typography suitable for the style.
+
+          
+          Example: A sad llama wearing a "Loser" crown, sitting on a pile of broken game controllers, with a tear rolling down its face.`;
+
+        // Generar el logo usando Cloudflare
+        const logoResponse = await fetch(
+          `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUD_FLARE_ACCOUNT_ID}/ai/run/${process.env.CLOUD_FLARE_IA_MODEL_ID}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.CLOUD_FLARE_API_KEY}`,
+            },
+            body: JSON.stringify({ prompt: logoPrompt }),
+          }
+        );
+
+        const logoData = await logoResponse.json();
+        const logo = `data:image/png;base64,${logoData.result.image}`;
+
+        return {
+          message: "Success",
+          data: {
+            name,
+            symbol,
+            supply,
+            logo,
+          },
+        };
+      } catch (err) {
+        return error(500, { message: `Internal Server Error: ${err}` });
+      }
+    },
+    {
+      body: t.Object({
+        userName: t.String(),
+      }),
+    }
+  )
+
   .listen(3000);
 
 console.log(
