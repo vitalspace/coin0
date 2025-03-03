@@ -25,4 +25,7 @@ Expansion to more EVM-compatible chains.
 Improved user experience with advanced customization options.
 
 Vitalspace / Aurota Virtual Chain ID: 1313161674
+
 RPC https://0x4e4541ca.rpc.aurora-cloud.dev
+
+Explorer https://0x4e4541ca.explorer.aurora-cloud.dev
