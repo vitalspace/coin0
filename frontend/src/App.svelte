@@ -11,8 +11,6 @@
   import Coins from "./routes/Coins.svelte";
   import Whitepaper from "./routes/Whitepaper.svelte";
 
-  let url = $state("");
-
   const initApp = async () => {
     const isConn = await web3App.isConnected();
     isConnected.set(isConn);
@@ -23,7 +21,7 @@
   });
 </script>
 
-<Router {url}>
+<Router>
   <Menu />
 
   <div class="">

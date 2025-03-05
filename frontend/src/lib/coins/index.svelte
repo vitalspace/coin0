@@ -92,7 +92,7 @@
 </script>
 
 <div
-  class="min-h-screen bg-black bg-[radial-gradient(ellipse_at_center,rgba(0,255,255,0.07),transparent)]  justify-center pt-20"
+  class="min-h-screen bg-black bg-[radial-gradient(ellipse_at_center,rgba(0,255,255,0.07),transparent)] justify-center pt-20"
 >
   <main class="container mx-auto py-8 px-20">
     <div class="flex justify-between items-center mb-6">
@@ -176,6 +176,23 @@
                         <ExternalLink class="h-3 w-3" />
                       </a>
                     </div>
+                  {:else if coin?.chainId === 52014}
+                    <div class=" flex items-center gap-2">
+                      <span class="font-mono"
+                        >{coin.contractAddress.substring(
+                          0,
+                          10
+                        )}...{coin.contractAddress.substring(
+                          coin.contractAddress.length - 4
+                        )}</span
+                      >
+                      <a
+                        href="https://blockexplorer.electroneum.com/address/{coin.contractAddress}"
+                        target="_blank"
+                      >
+                        <ExternalLink class="h-3 w-3" />
+                      </a>
+                    </div>
                   {:else if coin?.chainId === 5201420}
                     <div class=" flex items-center gap-2">
                       <span class="font-mono"
@@ -207,6 +224,20 @@
                       >
                       <a
                         href="https://0x4e4541ca.explorer.aurora-cloud.dev/address/{coin.owner}"
+                        target="_blank"
+                      >
+                        <ExternalLink class="h-3 w-3" />
+                      </a>
+                    </div>
+                  {:else if coin?.chainId === 52014}
+                    <div class=" flex items-center gap-2">
+                      <span class="font-mono"
+                        >{coin.owner.substring(0, 10)}...{coin.owner.substring(
+                          coin.owner.length - 4
+                        )}</span
+                      >
+                      <a
+                        href="https://blockexplorer.electroneum.com/address/{coin.owner}"
                         target="_blank"
                       >
                         <ExternalLink class="h-3 w-3" />

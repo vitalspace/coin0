@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ZodError } from "zod";
+  import Loader from "../components/common/Loader.svelte";
 
   import { Toast } from "flowbite-svelte";
   import {
@@ -41,7 +42,11 @@
       contractAddress: "0x15ff23Ab56f157bC9Dd460D6E6d686A0A0664E08",
     },
     // { id: 1313161554, name: "Aurora Mainnet", contractAddress: "" },
-    // { id: 52014, name: "Electroneum Mainnet", contractAddress: "" },
+    {
+      id: 52014,
+      name: "Electroneum Mainnet",
+      contractAddress: "0xC0c1d8EE17e2506D2eb106611C57299D802a536d",
+    },
     // { id: 1313161555, name: "Aurora Testnet", contractAddress: "" },
     {
       id: 5201420,
@@ -53,6 +58,7 @@
 
   let step = $state(1);
   let isCopied = $state(false);
+  let isGeneratingCoin = $state(false);
   let successMessage = $state("");
   let sucesssTransaction = $state(false);
 
@@ -158,6 +164,7 @@
   };
 
   const handleCreateCoin = async () => {
+    isGeneratingCoin = true;
     const isConn = await web3App.isConnected();
 
     if (!isConn) {
@@ -184,6 +191,8 @@
           formData.supply
         );
 
+        // console.log(result);
+
         if (result) {
           coinResult = {
             ...result,
@@ -200,7 +209,7 @@
           return;
         }
 
-        console.log(coinResult);
+        // console.log(coinResult);
 
         if (coinResult && aiLogo) {
           // @ts-ignore
@@ -232,6 +241,7 @@
           }
         }
       } catch (err) {
+        isGeneratingCoin = false;
         //@ts-ignore
         if (err.code === "ACTION_REJECTED" || err?.info?.error?.code === 4001) {
           errors.rejected = true;
@@ -368,6 +378,7 @@
             <!-- Pay fee button - shown when game not yet played OR when lost/tied -->
             <button
               onclick={step === 5 ? handleCreateCoin : nextStep}
+              disabled={isGeneratingCoin}
               class="bg-[#00ffff] hover:bg-[#00ffff]/90 text-black font-medium py-2 px-4 rounded cursor-pointer transition-colors {($isPlayerWin ===
                 null &&
                 !$isPlaying) ||
@@ -375,18 +386,27 @@
                 ? 'inline-block'
                 : 'hidden'}"
             >
-              {step === 5 ? "Pay fee" : "Next"}
+              {#if isGeneratingCoin}
+                <Loader size="small" />
+              {:else}
+                {step === 5 ? "Pay fee" : "Next"}
+              {/if}
             </button>
 
             <!-- Create Free Coin button - only shown when won -->
             <button
+              disabled={isGeneratingCoin}
               onclick={step === 5 ? handleCreateCoin : nextStep}
               class="bg-[#00ffff] hover:bg-[#00ffff]/90 text-black font-medium py-2 px-4 rounded cursor-pointer transition-colors {$isPlayerWin ===
                 true && !$isPlaying
                 ? 'inline-block'
                 : 'hidden'}"
             >
-              {step === 5 && $isPlayerWin ? "Create Free Coin" : "Pay fee"}
+              {#if isGeneratingCoin}
+                <Loader size="small" />
+              {:else}
+                {step === 5 && $isPlayerWin ? "Create Free Coin" : "Pay fee"}
+              {/if}
             </button>
           </div>
         </div>
@@ -425,6 +445,21 @@
               >
               <a
                 href="https://0x4e4541ca.explorer.aurora-cloud.dev/tx//{coinResult.hash}"
+                target="_blank"
+              >
+                <ExternalLink class="h-3 w-3" />
+              </a>
+            {:else if coinResult?.chainId === 52014}
+              <span class="font-mono"
+                >{coinResult.hash.substring(
+                  0,
+                  10
+                )}...{coinResult.hash.substring(
+                  coinResult.hash.length - 4
+                )}</span
+              >
+              <a
+                href="https://blockexplorer.electroneum.com/tx/{coinResult.hash}"
                 target="_blank"
               >
                 <ExternalLink class="h-3 w-3" />
@@ -508,7 +543,7 @@
   </div>
 
   {#if errors.badNetwork}
-    <div class="absolute bottom-4 right-4">
+    <div class="absolute bottom-4">
       <Toast
         class="bg-yellow-900"
         on:close={() => (errors.badNetwork = !errors.badNetwork)}
@@ -530,7 +565,7 @@
   {/if}
 
   {#if errors.rejected}
-    <div class="absolute bottom-4 right-4">
+    <div class="absolute bottom-4">
       <Toast
         class="bg-yellow-900"
         on:close={() => (errors.rejected = !errors.rejected)}
@@ -546,7 +581,7 @@
   {/if}
 
   {#if successMessage}
-    <div class="absolute bottom-4 right-4">
+    <div class="absolute bottom-4">
       <Toast class="bg-green-600" on:close={() => (successMessage = "")}>
         <div class="flex items-center gap-2 text-white">
           <CircleCheck class="w-5 h-5" />

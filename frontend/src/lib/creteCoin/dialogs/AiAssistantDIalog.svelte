@@ -6,7 +6,7 @@
 <!-- Floating AI Assistant Button -->
 <button
   onclick={() => (showAIAssistant = !showAIAssistant)}
-  class="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-cyan-400 hover:bg-cyan-500 text-black shadow-lg shadow-cyan-400/20 flex items-center justify-center"
+  class="fixed bottom-4 right-6 h-14 w-14 rounded-full bg-cyan-400 hover:bg-cyan-500 text-black shadow-lg shadow-cyan-400/20 flex items-center justify-center"
 >
   <Bot class="w-6 h-6" />
 </button>

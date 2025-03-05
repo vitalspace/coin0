@@ -74,7 +74,7 @@ const rateLimiterMiddleware = (windowMs = 60000, maxRequests = 10) => {
     });
 };
 
-const app = new Elysia()
+const app = new Elysia({ prefix: "/api" })
   .use(
     cors({
       //@ts-ignore
@@ -86,9 +86,8 @@ const app = new Elysia()
   // Apply rate limiting - 60 requests per minute
   .use(rateLimiterMiddleware(60000, 20))
   .get("/", () => "Hello Elysia")
-
   .post(
-    "/api/coin-agent/generate",
+    "/coin-agent/generate",
     async ({ body }) => {
       try {
         const { prompt } = body;
@@ -109,7 +108,7 @@ const app = new Elysia()
     }
   )
   .post(
-    "/api/coin-agent/logo-generate",
+    "/coin-agent/logo-generate",
     async ({ body }) => {
       try {
         const { prompt } = body;
@@ -145,7 +144,7 @@ const app = new Elysia()
   )
 
   .post(
-    "/api/coin-agent/create-coin",
+    "/coin-agent/create-coin",
     async ({ body }) => {
       try {
         const {
@@ -196,7 +195,7 @@ const app = new Elysia()
     }
   )
   .get(
-    "/api/coin-agent/coins",
+    "/coin-agent/coins",
     async ({ query }) => {
       try {
         const page = parseInt(query.page as unknown as string) || 1;
@@ -233,7 +232,7 @@ const app = new Elysia()
   )
 
   .post(
-    "/api/coin-agent/play",
+    "/coin-agent/play",
     async ({ body }) => {
       try {
         const { userMove } = body;
@@ -290,7 +289,7 @@ const app = new Elysia()
   )
 
   .post(
-    "/api/coin-agent/lose-coin",
+    "/coin-agent/lose-coin",
     async ({ body }) => {
       try {
         const { userName } = body;

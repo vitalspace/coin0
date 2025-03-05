@@ -1,7 +1,6 @@
 import { ethers, N } from "ethers";
 import MemeCoinFactoryAbi from "../contracts/MemeCoinFactoryAbi.json";
 import { CONTRACT_ADDRESS } from "../constants/constants";
-import { number } from "zod";
 
 class App {
   address: string = "";
@@ -20,6 +19,9 @@ class App {
       //@ts-ignore
       this.provider = new ethers.BrowserProvider(window.ethereum);
       this.contractConfig = contractConfig;
+      this.contractAddress = this.contractConfig[1313161674];
+
+      console.log("Contract", this.contractAddress);
 
       //@ts-ignore
       window.ethereum.on("accountsChanged", (accounts: string[]) => {
@@ -30,8 +32,8 @@ class App {
       window.ethereum.on("chainChanged", (chainId: number) => {
         const numericChainId = Number(chainId);
         this.currentChainId = numericChainId;
+        console.log("Contract", this.contractConfig[numericChainId]);
         this.contractAddress = this.contractConfig[numericChainId];
-        console.log("chain changed wtf", numericChainId, this.contractAddress);
       });
 
       this.contractAddress = this.contractConfig[1313161674];
@@ -95,7 +97,7 @@ class App {
       this.currentChainId = Number(network);
       return this.currentChainId;
     } catch (err) {
-      console.log("Error getting current network: ", err);
+      console.error("Error getting current network: ", err);
     }
   }
 
@@ -109,7 +111,7 @@ class App {
   async switchNetwork(chainId: number) {
     try {
       console.log("chainId", chainId);
-
+      this.contractAddress = this.contractConfig[chainId];
       //@ts-ignore
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -181,6 +183,7 @@ class App {
 
       const [tokenAddress, tokenName, tokenSymbol, initialAddress, tokenSuply] =
         receipt.logs[1].args;
+
       return {
         hash,
         tokenAddress,
