@@ -2,12 +2,24 @@
 
 Platform for creating, staking, and distributing token airdrops in the Initia ecosystem.
 
+## Vision
+
+Coin 0 aims to democratize token creation by making it accessible to everyone. We believe anyone should be able to create, stake, and distribute tokens without deep technical knowledge. Our platform provides intuitive tools for token creation, staking mechanisms, and airdrop distribution - all powered by the Coin0 Rollup on Initia.
+
 ## Stack
 
 - **Frontend**: Next.js 16 + React 19 + Tailwind CSS
 - **Backend**: Node.js + MongoDB + ElysiaJS
 - **Blockchain**: EVM (Coin0 Rollup)
 - **3D**: React Three Fiber
+
+## Why Coin 0?
+
+- **Simple**: Create tokens in minutes, not days
+- **Affordable**: Low fees thanks to Coin0 Rollup
+- **Powerful**: Staking and airdrops built-in
+- **Beautiful**: Immersive 3D interface
+- **AI-Powered**: Natural language token management
 
 ## Structure
 
@@ -62,12 +74,33 @@ docker-compose up -d
 
 ## Features
 
-- **Token Creation**: Create custom tokens on Coin0 Rollup (EVM)
-- **Staking**: Stake tokens and earn rewards
-- **Airdrops**: Distribute tokens to multiple addresses
-- **3D Interface**: Interactive 3D visuals via React Three Fiber
-- **AI Agent**: Natural language token management
-- **User Profiles**: Track tokens, stakes, and airdrops
+### Token Creation
+- Custom token name and symbol
+- Initial supply and decimals
+- Token metadata and image
+- Automatic contract deployment
+
+### Staking
+- Create staking pools
+- Set rewards and duration
+- Track staker positions
+- Claim rewards
+
+### Airdrops
+- Distribute to multiple addresses
+- Set claim periods
+- Verification options
+- Track distribution progress
+
+### 3D Interface
+- Immersive token visuals
+- Interactive 3D elements
+- Smooth animations via React Three Fiber
+
+### AI Agent
+- Natural language commands
+- Token management via chat
+- Automated tasks
 
 ## Tech Stack Details
 
@@ -85,3 +118,7 @@ docker-compose up -d
 ### Contracts
 - Solidity smart contracts
 - Deployed on Coin0 Rollup (EVM)
+
+## Contributing
+
+Pull requests are welcome! Feel free to open an issue or submit a PR.
