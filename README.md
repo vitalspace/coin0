@@ -1,6 +1,6 @@
-# Coin0 - Initia Token Platform
+# Coin 0 - Initia Token Platform
 
-Platform para crear, stakear y分发 airdrops de tokens en el ecosistema Initia.
+Platform for creating, staking, and distributing token airdrops in the Initia ecosystem.
 
 ## Stack
 
@@ -9,7 +9,7 @@ Platform para crear, stakear y分发 airdrops de tokens en el ecosistema Initia.
 - **Smart Contracts**: MoveVM (Initia)
 - **3D**: React Three Fiber
 
-## Estructura
+## Structure
 
 ```
 coin0/
@@ -34,7 +34,7 @@ docker-compose up -d
 
 ## Features
 
-- Create tokens en Initia
-- Staking de tokens
-- Airdrops
-- Interfaz 3D interactiva via React Three Fiber
+- Create tokens on Initia
+- Token staking
+- Airdrops distribution
+- Interactive 3D interface via React Three Fiber
