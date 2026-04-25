@@ -1,0 +1,12 @@
+{
+  "project_name": "coin0",
+  "repo_url": "https://github.com/vitalspace/coin0",
+  "commit_sha": "b12b799634c4d38782e008197da56d4a6a767806",
+  "rollup_chain_id": "coin0xyz",
+  "deployed_address": "0xDE1d15f0145f6db19A5e68904b993770D486e284",
+  "vm": "evm",
+  "native_feature": "auto-signing",
+  "core_logic_path": "contracts/factory/src/MemecoinFactory.sol",
+  "native_feature_frontend_path": "frontend/app/lib/services/coin.factory.service.ts",
+  "demo_video_url": "https://youtu.be/81Ufk4EAq8U"
+}
