@@ -13,10 +13,38 @@ Platform for creating, staking, and distributing token airdrops in the Initia ec
 
 ```
 coin0/
-├── frontend/      # Next.js app
-├── backend/      # API + MongoDB
-├── contracts/    # Solidity smart contracts
-└── docker/      # Docker config
+├── frontend/          # Next.js 16 App
+│   ├── app/
+│   │   ├── page.tsx                    # Landing page
+│   │   ├── layout.tsx                   # Root layout
+│   │   ├── create-coin/                 # Create token page
+│   │   ├── tokens/                      # Browse tokens
+│   │   ├── stakes/                     # Browse staking pools
+│   │   ├── stake/[id]/                  # Single stake pool
+│   │   ├── airdrops/                    # Browse airdrops
+│   │   ├── airdrop/[id]/                # Single airdrop
+│   │   ├── profile/                     # User profile
+│   │   ├── mytoken/[id]/                # Token management
+│   │   ├── agent/                       # AI Agent chat
+│   │   └── lib/
+│   │       └── components/               # Shared components
+│   │           ├── layout/              # Navbar, Footer, etc.
+│   │           ├── landing/            # Landing page sections
+│   │           ├── create-coin/         # Token creation forms
+│   │           ├── mytoken/            # Token dashboard tabs
+│   │           ├── profile/             # Profile components
+│   │           └── agent/              # AI chat components
+├── backend/           # ElysiaJS API
+│   ├── src/
+│   │   ├── index.ts                    # Entry point
+│   │   ├── routes/                    # API routes
+│   │   ├── models/                   # MongoDB models
+│   │   └── utils/                   # Utilities
+├── contracts/         # Solidity contracts
+│   ├── factory/                     # Token factory
+│   ├── stake/                     # Staking contract
+│   └── airdrop/                   # Airdrop contract
+└── docker/            # Docker config
 ```
 
 ## Quick Start
@@ -34,11 +62,12 @@ docker-compose up -d
 
 ## Features
 
-- Create tokens on Coin0 Rollup (EVM)
-- Token staking
-- Airdrops distribution
-- Interactive 3D interface via React Three Fiber
-- Built on Initia with custom EVM rollup
+- **Token Creation**: Create custom tokens on Coin0 Rollup (EVM)
+- **Staking**: Stake tokens and earn rewards
+- **Airdrops**: Distribute tokens to multiple addresses
+- **3D Interface**: Interactive 3D visuals via React Three Fiber
+- **AI Agent**: Natural language token management
+- **User Profiles**: Track tokens, stakes, and airdrops
 
 ## Tech Stack Details
 
